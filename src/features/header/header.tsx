@@ -5,6 +5,23 @@ import Navbar from "react-bootstrap/Navbar"
 import Offcanvas from "react-bootstrap/Offcanvas"
 import { useLocation, useNavigate } from "react-router-dom"
 import "./header.css"
+import { ROUTE_PATHS } from "../../lib/shared"
+
+interface IMenuLink {
+  route: string
+  name: string
+}
+
+const MENU_LINKS: IMenuLink[] = [
+  {
+    route: ROUTE_PATHS.ROOT,
+    name: "Список постов",
+  },
+  {
+    route: ROUTE_PATHS.ABOUT,
+    name: "Обо мне",
+  },
+]
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -30,26 +47,21 @@ export default function Header() {
             <Offcanvas.Header closeButton>
               <Offcanvas.Title>Меню</Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body className="p-0">
+            <Offcanvas.Body>
               <Nav
-                fill
                 activeKey={location.pathname}
-                className="d-flex flex-column gap-4 mt-5"
+                className="d-flex flex-column gap-4 mt-5 px-4"
               >
-                <Nav.Link
-                  eventKey="/"
-                  onClick={() => goTo("/")}
-                  className="header__link"
-                >
-                  Список постов
-                </Nav.Link>
-                <Nav.Link
-                  eventKey="/about"
-                  onClick={() => goTo("/about")}
-                  className="header__link"
-                >
-                  Обо мне
-                </Nav.Link>
+                {MENU_LINKS.map((link, i) => (
+                  <Nav.Link
+                    eventKey={link.route}
+                    onClick={() => goTo(link.route)}
+                    className="header__link py-3 px-4 rounded-2 "
+                    key={i}
+                  >
+                    {link.name}
+                  </Nav.Link>
+                ))}
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

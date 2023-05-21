@@ -1,3 +1,7 @@
 .header__link:hover {
   text-decoration: underline;
 }
+
+.header__link.active {
+  background-color: var(--bs-dark);
+}

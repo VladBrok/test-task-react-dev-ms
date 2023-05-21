@@ -9,23 +9,24 @@ import Posts from "./routes/posts"
 import Layout from "./routes/layout"
 import User from "./routes/user"
 import About from "./routes/about"
+import { ROUTE_PATHS } from "./lib/shared"
 
 // TODO: handle error (404, ...)
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROUTE_PATHS.ROOT,
     element: <Layout />,
     children: [
       {
-        path: "/",
+        path: ROUTE_PATHS.ROOT,
         element: <Posts />,
       },
       {
-        path: "/users/:id",
+        path: ROUTE_PATHS.USER,
         element: <User />,
       },
       {
-        path: "/about",
+        path: ROUTE_PATHS.ABOUT,
         element: <About />,
       },
     ],
