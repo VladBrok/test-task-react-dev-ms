@@ -38,7 +38,13 @@ export default function Header() {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand={false} className="mb-3">
+      <Navbar
+        fixed="top"
+        bg="dark"
+        variant="dark"
+        expand={false}
+        className="mb-3"
+      >
         <Container fluid>
           <Navbar.Toggle onClick={() => setIsMenuOpen((prev) => !prev)} />
           <Navbar.Brand href="#">Блог</Navbar.Brand>
