@@ -1,11 +1,14 @@
 import { useState } from "react"
 import Container from "react-bootstrap/Container"
 import Nav from "react-bootstrap/Nav"
+import Stack from "react-bootstrap/Stack"
 import Navbar from "react-bootstrap/Navbar"
+import Card from "react-bootstrap/Card"
 import Offcanvas from "react-bootstrap/Offcanvas"
 import { useLocation, useNavigate } from "react-router-dom"
 import "./header.css"
 import { ROUTE_PATHS } from "../../lib/shared"
+import Avatar from "../avatar/avatar"
 
 interface IMenuLink {
   route: string
@@ -44,10 +47,15 @@ export default function Header() {
             show={isMenuOpen}
             onHide={() => setIsMenuOpen(false)}
           >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Меню</Offcanvas.Title>
-            </Offcanvas.Header>
+            <Offcanvas.Header closeButton></Offcanvas.Header>
             <Offcanvas.Body>
+              <Stack direction="horizontal" gap={3} className="pb-2">
+                <Avatar className="w-25 border" />
+                <Card className="border-0">
+                  <Card.Title>Владислав</Card.Title>
+                  <Card.Text>vlad.brok99@gmail.com</Card.Text>
+                </Card>
+              </Stack>
               <Nav
                 activeKey={location.pathname}
                 className="d-flex flex-column gap-4 mt-5 px-4"
