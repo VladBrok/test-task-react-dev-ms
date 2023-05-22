@@ -26,7 +26,7 @@ export default function PostList(props: IPostListProps) {
   }, [dispatch, props.userId])
 
   return (
-    <Container className="post-list__container px-5">
+    <Container className="post-list__container p-5">
       <Stack gap={4}>
         {isLoading && <Spinner animation="border" className="mx-auto mt-5" />}
         {isError && (
