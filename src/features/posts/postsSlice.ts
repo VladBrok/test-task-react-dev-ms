@@ -21,10 +21,10 @@ const initialState: IPostsState = {
   error: null,
 }
 
-export function* getPostsSaga({ payload: userId }): any {
+export function* getPostsSaga(action): any {
   try {
     yield put(getPostsLoading(true))
-    const posts = yield fetchPosts(userId)
+    const posts = yield fetchPosts(action.payload)
     yield put(getPostsSuccess(posts))
   } catch (e) {
     yield put(getPostsError(e))
