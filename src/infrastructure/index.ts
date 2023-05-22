@@ -1,9 +1,15 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-
-// TODO: intercept all requests and add delay 0.5 s
+import { delay } from "../lib/delay"
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
+})
+
+const ARTIFICIAL_DELAY_MS = 500
+
+axiosInstance.interceptors.request.use(async (config) => {
+  await delay(ARTIFICIAL_DELAY_MS)
+  return config
 })
 
 class InfrastructureClient {
