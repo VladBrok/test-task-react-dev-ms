@@ -15,7 +15,6 @@ export interface IPostListProps {
 }
 
 // TODO: add lazy loading (in other components too)
-// TODO: add alert for no posts
 
 export default function PostList(props: IPostListProps) {
   const posts = useAppSelector((state) => state.posts.list)
@@ -39,18 +38,22 @@ export default function PostList(props: IPostListProps) {
         )}
         {!isLoading &&
           !isError &&
-          posts.map((post) => (
-            <Card key={post.id} className="rounded-3">
-              <Card.Body>
-                <Avatar
-                  className="post-list__avatar border border-secondary rounded-circle"
-                  userId={post.userId}
-                />
-                <Card.Title>{post.title}</Card.Title>
-                <Card.Text>{post.body}</Card.Text>
-                <Comments postId={post.id} />
-              </Card.Body>
-            </Card>
+          (posts.length ? (
+            posts.map((post) => (
+              <Card key={post.id} className="rounded-3">
+                <Card.Body>
+                  <Avatar
+                    className="post-list__avatar border border-secondary rounded-circle"
+                    userId={post.userId}
+                  />
+                  <Card.Title>{post.title}</Card.Title>
+                  <Card.Text>{post.body}</Card.Text>
+                  <Comments postId={post.id} />
+                </Card.Body>
+              </Card>
+            ))
+          ) : (
+            <Alert variant="secondary">Постов пока нет. Заходите позже</Alert>
           ))}
       </Stack>
     </Container>
