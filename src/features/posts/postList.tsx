@@ -26,6 +26,11 @@ export default function PostList(props: IPostListProps) {
     dispatch(getPosts(props.userId))
   }, [dispatch, props.userId])
 
+  const noPostsText =
+    props.userId != null
+      ? "У данного пользователя пока нет постов"
+      : "Постов пока нет. Заходите позже"
+
   return (
     <Container className="post-list__container p-5">
       <Stack gap={4}>
@@ -53,7 +58,7 @@ export default function PostList(props: IPostListProps) {
               </Card>
             ))
           ) : (
-            <Alert variant="secondary">Постов пока нет. Заходите позже</Alert>
+            <Alert variant="secondary">{noPostsText}</Alert>
           ))}
       </Stack>
     </Container>
