@@ -35,15 +35,20 @@ export default function PostList(props: IPostListProps) {
             страницу.
           </Alert>
         )}
-        {posts.map((post) => (
-          <Card key={post.id} className="rounded-3">
-            <Card.Body>
-              <Avatar className="post-list__avatar border border-secondary" />
-              <Card.Title>{post.title}</Card.Title>
-              <Card.Text>{post.body}</Card.Text>
-            </Card.Body>
-          </Card>
-        ))}
+        {!isLoading &&
+          !isError &&
+          posts.map((post) => (
+            <Card key={post.id} className="rounded-3">
+              <Card.Body>
+                <Avatar
+                  className="post-list__avatar border border-secondary rounded-circle"
+                  userId={post.userId}
+                />
+                <Card.Title>{post.title}</Card.Title>
+                <Card.Text>{post.body}</Card.Text>
+              </Card.Body>
+            </Card>
+          ))}
       </Stack>
     </Container>
   )

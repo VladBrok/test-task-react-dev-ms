@@ -56,7 +56,7 @@ export default function Header() {
             <Offcanvas.Header closeButton></Offcanvas.Header>
             <Offcanvas.Body>
               <Stack direction="horizontal" gap={3} className="pb-2">
-                <Avatar className="w-25 border" />
+                <Avatar className="header__avatar border rounded-circle" />
                 <Card className="border-0">
                   <Card.Title>Владислав</Card.Title>
                   <Card.Text>vlad.brok99@gmail.com</Card.Text>
