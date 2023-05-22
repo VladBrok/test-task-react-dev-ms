@@ -28,7 +28,7 @@ export default function PostList(props: IPostListProps) {
         {isError && (
           <Alert variant="danger">
             При загрузке постов произошла ошибка. Попробуйте перезагрузить
-            страницу
+            страницу.
           </Alert>
         )}
         {posts.map((post) => (
