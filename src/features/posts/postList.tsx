@@ -8,6 +8,7 @@ import Avatar from "../avatar/avatar"
 import Stack from "react-bootstrap/Stack"
 import Alert from "react-bootstrap/Alert"
 import Spinner from "react-bootstrap/Spinner"
+import Comments from "../comments/comments"
 
 export interface IPostListProps {
   userId?: number
@@ -46,6 +47,7 @@ export default function PostList(props: IPostListProps) {
                 />
                 <Card.Title>{post.title}</Card.Title>
                 <Card.Text>{post.body}</Card.Text>
+                <Comments postId={post.id} />
               </Card.Body>
             </Card>
           ))}
