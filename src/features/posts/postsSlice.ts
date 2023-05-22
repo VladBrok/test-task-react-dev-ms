@@ -1,4 +1,4 @@
-import { Action, createAction, createSlice } from "@reduxjs/toolkit"
+import { createAction, createSlice } from "@reduxjs/toolkit"
 import { put } from "redux-saga/effects"
 import { fetchPosts } from "./postsAPI"
 
@@ -12,13 +12,13 @@ export interface IPost {
 export interface IPostsState {
   list: IPost[]
   isLoading: boolean
-  error: unknown
+  isError: boolean
 }
 
 const initialState: IPostsState = {
   list: [],
   isLoading: false,
-  error: null,
+  isError: false,
 }
 
 export function* getPostsSaga(action): any {
@@ -27,7 +27,8 @@ export function* getPostsSaga(action): any {
     const posts = yield fetchPosts(action.payload)
     yield put(getPostsSuccess(posts))
   } catch (e) {
-    yield put(getPostsError(e))
+    console.error(e)
+    yield put(getPostsError())
   } finally {
     yield put(getPostsLoading(false))
   }
@@ -42,9 +43,10 @@ export const postsSlice = createSlice({
     },
     getPostsSuccess: (state, action) => {
       state.list = action.payload
+      state.isError = false
     },
-    getPostsError: (state, action) => {
-      state.error = action.payload
+    getPostsError: (state) => {
+      state.isError = true
     },
   },
 })

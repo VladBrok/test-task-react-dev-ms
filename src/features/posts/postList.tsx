@@ -1,6 +1,12 @@
+import "./postList.css"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { getPosts } from "./postsSlice"
+import Container from "react-bootstrap/Container"
+import Card from "react-bootstrap/Card"
+import Avatar from "../avatar/avatar"
+import Stack from "react-bootstrap/Stack"
+import Alert from "react-bootstrap/Alert"
 
 export interface IPostListProps {
   userId?: number
@@ -9,7 +15,7 @@ export interface IPostListProps {
 export default function PostList(props: IPostListProps) {
   const posts = useAppSelector((state) => state.posts.list)
   const isLoading = useAppSelector((state) => state.posts.isLoading)
-  const error = useAppSelector((state) => state.posts.error)
+  const isError = useAppSelector((state) => state.posts.isError)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -17,9 +23,24 @@ export default function PostList(props: IPostListProps) {
   }, [dispatch, props.userId])
 
   return (
-    <div>
-      {JSON.stringify(posts)}, {JSON.stringify(isLoading)},{" "}
-      {JSON.stringify(error)}
-    </div>
+    <Container className="post-list__container px-5">
+      <Stack gap={4}>
+        {isError && (
+          <Alert variant="danger">
+            При загрузке постов произошла ошибка. Попробуйте перезагрузить
+            страницу
+          </Alert>
+        )}
+        {posts.map((post) => (
+          <Card key={post.id} className="rounded-3">
+            <Card.Body>
+              <Avatar className="post-list__avatar border border-secondary" />
+              <Card.Title>{post.title}</Card.Title>
+              <Card.Text>{post.body}</Card.Text>
+            </Card.Body>
+          </Card>
+        ))}
+      </Stack>
+    </Container>
   )
 }
