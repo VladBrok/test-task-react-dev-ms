@@ -1,4 +1,4 @@
-import { createAction, createSlice } from "@reduxjs/toolkit"
+import { Action, createAction, createSlice } from "@reduxjs/toolkit"
 import { put } from "redux-saga/effects"
 import { fetchPosts } from "./postsAPI"
 
@@ -21,10 +21,10 @@ const initialState: IPostsState = {
   error: null,
 }
 
-export function* getPostsSaga(): any {
+export function* getPostsSaga({ payload: userId }): any {
   try {
     yield put(getPostsLoading(true))
-    const posts = yield fetchPosts()
+    const posts = yield fetchPosts(userId)
     yield put(getPostsSuccess(posts))
   } catch (e) {
     yield put(getPostsError(e))
@@ -50,7 +50,7 @@ export const postsSlice = createSlice({
 })
 
 export const GET_POSTS = "posts/getPosts"
-export const getPosts = createAction(GET_POSTS)
+export const getPosts = createAction<number | undefined>(GET_POSTS)
 
 export const { getPostsSuccess, getPostsError, getPostsLoading } =
   postsSlice.actions
