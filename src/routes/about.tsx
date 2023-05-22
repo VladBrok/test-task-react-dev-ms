@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card"
 
 export default function About() {
   return (
-    <Container className="vh-100 d-flex align-items-center justify-content-center px-5">
+    <Container className="mt-5 pt-5 d-flex align-items-center justify-content-center px-5">
       <Card className="border-0">
         <Card.Title className="mb-4"> Привет, меня зовут Владислав.</Card.Title>
         <Card.Text>

@@ -39,7 +39,7 @@ export default function Header() {
   return (
     <>
       <Navbar
-        fixed="top"
+        sticky="top"
         bg="dark"
         variant="dark"
         expand={false}
