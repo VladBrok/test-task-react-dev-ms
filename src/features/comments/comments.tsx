@@ -23,8 +23,6 @@ export interface ICommentsProps {
 
 const ACCORDION_KEY = "0"
 
-// TODO: add alert for no comments
-
 export default function Comments(props: ICommentsProps) {
   const [activeKey, setActiveKey] = useState("")
 
@@ -64,23 +62,29 @@ export default function Comments(props: ICommentsProps) {
               При загрузке комментариев произошла ошибка. Попробуйте позже.
             </Alert>
           )}
-          {!isLoading && !isError && (
-            <ListGroup className="comments__list">
-              {comments.map((comment) => (
-                <ListGroup.Item
-                  className="border-start-0 border-end-0"
-                  key={comment.id}
-                >
-                  <Card className="border-0">
-                    <Card.Text className="fw-bold mb-1">
-                      {comment.email}
-                    </Card.Text>
-                    <Card.Text>{comment.body}</Card.Text>
-                  </Card>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          )}
+          {!isLoading &&
+            !isError &&
+            (comments.length ? (
+              <ListGroup className="comments__list">
+                {comments.map((comment) => (
+                  <ListGroup.Item
+                    className="border-start-0 border-end-0"
+                    key={comment.id}
+                  >
+                    <Card className="border-0">
+                      <Card.Text className="fw-bold mb-1">
+                        {comment.email}
+                      </Card.Text>
+                      <Card.Text>{comment.body}</Card.Text>
+                    </Card>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            ) : (
+              <Alert variant="secondary">
+                У данного поста нет комментариев.
+              </Alert>
+            ))}
         </Container>
       </Accordion.Collapse>
     </Accordion>
