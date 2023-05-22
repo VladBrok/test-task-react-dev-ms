@@ -14,10 +14,9 @@ export default function Avatar(props: IAvatarProps) {
   return (
     <Button
       variant="link"
-      onClick={() =>
-        props.userId && navigate(`${ROUTE_PATHS.USER}/${props.userId}`)
-      }
+      onClick={() => navigate(`${ROUTE_PATHS.USER}/${props.userId}`)}
       className={props.className}
+      disabled={!props.userId}
     >
       {" "}
       <Image
