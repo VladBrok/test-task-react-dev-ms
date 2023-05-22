@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card"
 import Avatar from "../avatar/avatar"
 import Stack from "react-bootstrap/Stack"
 import Alert from "react-bootstrap/Alert"
+import Spinner from "react-bootstrap/Spinner"
 
 export interface IPostListProps {
   userId?: number
@@ -27,6 +28,7 @@ export default function PostList(props: IPostListProps) {
   return (
     <Container className="post-list__container px-5">
       <Stack gap={4}>
+        {isLoading && <Spinner animation="border" className="mx-auto mt-5" />}
         {isError && (
           <Alert variant="danger">
             При загрузке постов произошла ошибка. Попробуйте перезагрузить
