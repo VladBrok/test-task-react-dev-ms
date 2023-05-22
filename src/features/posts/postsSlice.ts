@@ -23,12 +23,13 @@ const initialState: IPostsState = {
 
 export function* getPostsSaga(action): any {
   try {
+    yield put(getPostsError(false))
     yield put(getPostsLoading(true))
     const posts = yield fetchPosts(action.payload)
     yield put(getPostsSuccess(posts))
   } catch (e) {
     console.error(e)
-    yield put(getPostsError())
+    yield put(getPostsError(true))
   } finally {
     yield put(getPostsLoading(false))
   }
@@ -45,8 +46,8 @@ export const postsSlice = createSlice({
       state.list = action.payload
       state.isError = false
     },
-    getPostsError: (state) => {
-      state.isError = true
+    getPostsError: (state, action) => {
+      state.isError = action.payload
     },
   },
 })

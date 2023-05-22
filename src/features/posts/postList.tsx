@@ -15,6 +15,7 @@ export interface IPostListProps {
 }
 
 // TODO: add lazy loading (in other components too)
+// TODO: add alert for no posts
 
 export default function PostList(props: IPostListProps) {
   const posts = useAppSelector((state) => state.posts.list)

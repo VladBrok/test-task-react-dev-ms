@@ -3,9 +3,14 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
 import postsReducer from "../features/posts/postsSlice"
 import { takeEvery } from "redux-saga/effects"
 import { GET_POSTS, getPostsSaga } from "../features/posts/postsSlice"
+import commentsReducer, {
+  GET_COMMENTS,
+  getCommentsSaga,
+} from "../features/comments/commentsSlice"
 
 function* sagas() {
   yield takeEvery(GET_POSTS, getPostsSaga)
+  yield takeEvery(GET_COMMENTS, getCommentsSaga)
 }
 
 const sagaMiddleware = createSagaMiddleware()
@@ -13,6 +18,7 @@ const sagaMiddleware = createSagaMiddleware()
 export const store = configureStore({
   reducer: {
     posts: postsReducer,
+    comments: commentsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
