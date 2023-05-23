@@ -1,0 +1,37 @@
+.user-card__container {
+  height: calc(100vh - 48px);
+  overflow: hidden;
+}
+
+.user-card__avatar {
+  max-width: 16rem;
+}
+
+.user-card__info {
+  flex: 1 1 30%;
+}
+
+.user-card__posts {
+  overflow-y: auto;
+  flex: 1 1 70%;
+}
+
+@media screen and (min-width: 768px) {
+  .user-card__info {
+    flex-basis: 25%;
+  }
+
+  .user-card__posts {
+    flex-basis: 75%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .user-card__info {
+    flex-basis: 20%;
+  }
+
+  .user-card__posts {
+    flex-basis: 80%;
+  }
+}

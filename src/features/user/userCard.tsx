@@ -1,3 +1,4 @@
+import "./userCard.css"
 import Container from "react-bootstrap/Container"
 import Card from "react-bootstrap/Card"
 import PostList from "../posts/postList"
@@ -23,14 +24,9 @@ export default function UserCard(props: IUserCardProps) {
     dispatch(getUser(props.userId))
   }, [dispatch, props.userId])
 
-  // TODO: extract styles to classes
   return (
-    <Container
-      fluid
-      className="d-flex p-0 mt-5 pt-2"
-      style={{ height: "calc(100vh - 48px)", overflow: "hidden" }}
-    >
-      <div style={{ flex: "1 1 30%" }} className="border-end">
+    <Container fluid className="d-flex p-0 mt-5 pt-2 user-card__container">
+      <div className="border-end user-card__info">
         {isLoading && (
           <div className="d-flex justify-center mt-5">
             {" "}
@@ -45,7 +41,9 @@ export default function UserCard(props: IUserCardProps) {
         )}
         {!isLoading && !isError && (
           <Card className="border-end-0 border-start-0">
-            <Avatar className="border-secondary border-2 rounded-circle m-4 mb-0" />
+            <div className="px-4 d-flex justify-content-center">
+              <Avatar className="user-card__avatar mt-4 border-secondary border-2 rounded-circle" />
+            </div>
             <Card.Body>
               <Card.Title className="text-center">
                 {user.info?.name} ({user.info?.username})
@@ -65,7 +63,7 @@ export default function UserCard(props: IUserCardProps) {
           </Card>
         )}
       </div>
-      <div style={{ overflowY: "auto", flex: "1 1 70%" }}>
+      <div className="user-card__posts">
         <PostList userId={props.userId} />
       </div>
     </Container>
