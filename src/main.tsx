@@ -10,12 +10,13 @@ import Layout from "./routes/layout"
 import User from "./routes/user"
 import About from "./routes/about"
 import { ROUTE_PATHS } from "./lib/shared-constants"
+import ErrorBoundary from "./routes/errorBoundary"
 
-// TODO: handle error (404, ...)
 const router = createBrowserRouter([
   {
     path: ROUTE_PATHS.ROOT,
     element: <Layout />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: ROUTE_PATHS.ROOT,
