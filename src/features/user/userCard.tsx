@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { getUser } from "./userSlice"
 import Avatar from "../avatar/avatar"
 import ListGroup from "react-bootstrap/ListGroup"
+import Alert from "react-bootstrap/Alert"
+import Spinner from "react-bootstrap/Spinner"
 
 export interface IUserCardProps {
   userId: number
@@ -21,8 +23,6 @@ export default function UserCard(props: IUserCardProps) {
     dispatch(getUser(props.userId))
   }, [dispatch, props.userId])
 
-  console.log(user.info, isLoading, isError)
-
   // TODO: extract styles to classes
   return (
     <Container
@@ -31,25 +31,39 @@ export default function UserCard(props: IUserCardProps) {
       style={{ height: "calc(100vh - 48px)", overflow: "hidden" }}
     >
       <div style={{ flex: "1 1 30%" }} className="border-end">
-        <Card className="border-end-0 border-start-0">
-          <Avatar className="border-secondary border-2 rounded-circle m-4 mb-0" />
-          <Card.Body>
-            <Card.Title className="text-center">
-              {user.info?.name} ({user.info?.username})
-            </Card.Title>
-          </Card.Body>
-          <ListGroup className="list-group-flush">
-            <ListGroup.Item>
-              email: <span className="fw-bold"> {user.info?.email}</span>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              phone: <span className="fw-bold">{user.info?.phone}</span>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              website: <span className="fw-bold">{user.info?.website}</span>
-            </ListGroup.Item>
-          </ListGroup>
-        </Card>
+        {isLoading && (
+          <div className="d-flex justify-center mt-5">
+            {" "}
+            <Spinner animation="border" className="mx-auto" />
+          </div>
+        )}
+        {isError && (
+          <Alert variant="danger" className="mt-5 mx-3">
+            При загрузке информации о пользователе произошла ошибка. Попробуйте
+            перезагрузить страницу.
+          </Alert>
+        )}
+        {!isLoading && !isError && (
+          <Card className="border-end-0 border-start-0">
+            <Avatar className="border-secondary border-2 rounded-circle m-4 mb-0" />
+            <Card.Body>
+              <Card.Title className="text-center">
+                {user.info?.name} ({user.info?.username})
+              </Card.Title>
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+              <ListGroup.Item>
+                email: <span className="fw-bold"> {user.info?.email}</span>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                phone: <span className="fw-bold">{user.info?.phone}</span>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                website: <span className="fw-bold">{user.info?.website}</span>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        )}
       </div>
       <div style={{ overflowY: "auto", flex: "1 1 70%" }}>
         <PostList userId={props.userId} />
