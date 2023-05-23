@@ -9,7 +9,7 @@ import Posts from "./routes/posts"
 import Layout from "./routes/layout"
 import User from "./routes/user"
 import About from "./routes/about"
-import { ROUTE_PATHS } from "./lib/shared"
+import { ROUTE_PATHS } from "./lib/shared-constants"
 
 // TODO: handle error (404, ...)
 const router = createBrowserRouter([

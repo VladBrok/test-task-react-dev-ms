@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card"
 import Offcanvas from "react-bootstrap/Offcanvas"
 import { useLocation, useNavigate } from "react-router-dom"
 import "./header.css"
-import { ROUTE_PATHS } from "../../lib/shared"
+import { ROUTE_PATHS } from "../../lib/shared-constants"
 import Avatar from "../avatar/avatar"
 
 interface IMenuLink {

@@ -1,7 +1,7 @@
 import Image from "react-bootstrap/Image"
 import Button from "react-bootstrap/Button"
 import { useNavigate } from "react-router-dom"
-import { ROUTE_PATHS } from "../../lib/shared"
+import { ROUTE_PATHS } from "../../lib/shared-constants"
 
 export interface IAvatarProps {
   userId?: number

@@ -14,8 +14,6 @@ export interface IPostListProps {
   userId?: number
 }
 
-// TODO: add lazy loading (in other components too)
-
 export default function PostList(props: IPostListProps) {
   const posts = useAppSelector((state) => state.posts.list)
   const isLoading = useAppSelector((state) => state.posts.isLoading)
