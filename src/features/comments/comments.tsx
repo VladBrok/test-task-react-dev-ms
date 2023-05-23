@@ -12,8 +12,8 @@ import {
   selectCommentsByPostId,
 } from "./commentsSlice"
 import { shallowEqual } from "react-redux"
+import Spinner from "react-bootstrap/Spinner"
 
-const Spinner = lazy(() => import("react-bootstrap/Spinner"))
 const Alert = lazy(() => import("react-bootstrap/Alert"))
 const ListGroup = lazy(() => import("react-bootstrap/ListGroup"))
 const ListGroupItem = lazy(() => import("react-bootstrap/ListGroupItem"))
@@ -55,50 +55,55 @@ export default function Comments(props: ICommentsProps) {
     dispatch(getComments(props.postId))
   }, [dispatch, isOpen, props.postId])
 
+  const spinner = (
+    <div className="d-flex justify-center">
+      {" "}
+      <Spinner animation="grow" className="mx-auto" />
+    </div>
+  )
+
   return (
     <Accordion activeKey={activeKey}>
       <Button onClick={decoratedOnClick}>Комментарии</Button>
       <Accordion.Collapse eventKey={ACCORDION_KEY}>
-        <Suspense>
-          {isOpen && (
-            <Container fluid className="mt-3">
-              {isLoading && (
-                <div className="d-flex justify-center">
-                  {" "}
-                  <Spinner animation="border" className="mx-auto" />
-                </div>
-              )}
-              {isError && (
-                <Alert variant="danger">
-                  При загрузке комментариев произошла ошибка. Попробуйте позже.
-                </Alert>
-              )}
-              {!isLoading &&
-                !isError &&
-                (comments.length ? (
-                  <ListGroup className="comments__list">
-                    {comments.map((comment) => (
-                      <ListGroupItem
-                        className="border-start-0 border-end-0"
-                        key={comment.id}
-                      >
-                        <Card className="border-0">
-                          <CardText className="fw-bold mb-1">
-                            {comment.email}
-                          </CardText>
-                          <CardText>{comment.body}</CardText>
-                        </Card>
-                      </ListGroupItem>
-                    ))}
-                  </ListGroup>
-                ) : (
-                  <Alert variant="secondary">
-                    У данного поста нет комментариев.
+        <Container fluid className="mt-3">
+          <Suspense fallback={spinner}>
+            {isOpen && (
+              <>
+                {isLoading && spinner}
+                {isError && (
+                  <Alert variant="danger">
+                    При загрузке комментариев произошла ошибка. Попробуйте
+                    позже.
                   </Alert>
-                ))}
-            </Container>
-          )}
-        </Suspense>
+                )}
+                {!isLoading &&
+                  !isError &&
+                  (comments.length ? (
+                    <ListGroup className="comments__list">
+                      {comments.map((comment) => (
+                        <ListGroupItem
+                          className="border-start-0 border-end-0"
+                          key={comment.id}
+                        >
+                          <Card className="border-0">
+                            <CardText className="fw-bold mb-1">
+                              {comment.email}
+                            </CardText>
+                            <CardText>{comment.body}</CardText>
+                          </Card>
+                        </ListGroupItem>
+                      ))}
+                    </ListGroup>
+                  ) : (
+                    <Alert variant="secondary">
+                      У данного поста нет комментариев.
+                    </Alert>
+                  ))}
+              </>
+            )}
+          </Suspense>
+        </Container>
       </Accordion.Collapse>
     </Accordion>
   )
