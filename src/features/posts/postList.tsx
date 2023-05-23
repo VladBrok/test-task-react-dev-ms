@@ -1,11 +1,11 @@
 import "./postList.css"
-import { Suspense, lazy, useEffect } from "react"
+import { Suspense, lazy, startTransition, useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { getPosts } from "./postsSlice"
 import Container from "react-bootstrap/Container"
 import Stack from "react-bootstrap/Stack"
+import Spinner from "react-bootstrap/Spinner"
 
-const Spinner = lazy(() => import("react-bootstrap/Spinner"))
 const Alert = lazy(() => import("react-bootstrap/Alert"))
 const Card = lazy(() => import("react-bootstrap/Card"))
 const CardText = lazy(() =>
@@ -37,46 +37,52 @@ export default function PostList(props: IPostListProps) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getPosts(props.userId))
+    startTransition(() => {
+      dispatch(getPosts(props.userId))
+    })
   }, [dispatch, props.userId])
 
   const noPostsText =
     props.userId != null
-      ? "У данного пользователя пока нет постов"
-      : "Постов пока нет. Заходите позже"
+      ? "У данного пользователя пока нет постов."
+      : "Постов пока нет. Заходите позже."
+
+  const spinner = <Spinner animation="grow" className="mx-auto mt-5" />
 
   return (
     <Container className="post-list__container p-5">
-      <Suspense>
-        <Stack gap={4}>
-          {isLoading && <Spinner animation="border" className="mx-auto mt-5" />}
-          {isError && (
-            <Alert variant="danger">
-              При загрузке постов произошла ошибка. Попробуйте перезагрузить
-              страницу.
-            </Alert>
-          )}
-          {!isLoading &&
-            !isError &&
-            (posts.length ? (
-              posts.map((post) => (
-                <Card key={post.id} className="rounded-3">
-                  <CardBody>
-                    <Avatar
-                      className="post-list__avatar border border-secondary rounded-circle"
-                      userId={post.userId}
-                    />
-                    <CardTitle>{post.title}</CardTitle>
-                    <CardText>{post.body}</CardText>
-                    <Comments postId={post.id} />
-                  </CardBody>
-                </Card>
-              ))
-            ) : (
-              <Alert variant="secondary">{noPostsText}</Alert>
-            ))}
-        </Stack>
-      </Suspense>
+      <Stack gap={4}>
+        <Suspense fallback={spinner}>
+          <>
+            {isLoading && spinner}
+            {isError && (
+              <Alert variant="danger">
+                При загрузке постов произошла ошибка. Попробуйте перезагрузить
+                страницу.
+              </Alert>
+            )}
+            {!isLoading &&
+              !isError &&
+              (posts.length ? (
+                posts.map((post) => (
+                  <Card key={post.id} className="rounded-3">
+                    <CardBody>
+                      <Avatar
+                        className="post-list__avatar border border-secondary rounded-circle"
+                        userId={post.userId}
+                      />
+                      <CardTitle>{post.title}</CardTitle>
+                      <CardText>{post.body}</CardText>
+                      <Comments postId={post.id} />
+                    </CardBody>
+                  </Card>
+                ))
+              ) : (
+                <Alert variant="secondary">{noPostsText}</Alert>
+              ))}
+          </>
+        </Suspense>
+      </Stack>
     </Container>
   )
 }

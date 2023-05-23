@@ -5,6 +5,7 @@ import Navbar from "react-bootstrap/Navbar"
 import { useLocation, useNavigate } from "react-router-dom"
 import "./header.css"
 import { ROUTE_PATHS } from "../../lib/shared-constants"
+import Spinner from "react-bootstrap/Spinner"
 
 const OffcanvasHeader = lazy(() => import("react-bootstrap/OffcanvasHeader"))
 const OffcanvasBody = lazy(() => import("react-bootstrap/OffcanvasBody"))
@@ -61,6 +62,8 @@ export default function Header() {
     }
   }, [isMenuOpen])
 
+  const spinner = <Spinner animation="grow" className="mx-auto mt-5" />
+
   return (
     <>
       <Navbar
@@ -78,7 +81,7 @@ export default function Header() {
             show={isMenuOpen}
             onHide={() => setIsMenuOpen(false)}
           >
-            <Suspense>
+            <Suspense fallback={spinner}>
               {shouldShowOffcanvasContent && (
                 <>
                   {" "}

@@ -7,8 +7,9 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { getUser } from "./userSlice"
 import { useNavigate } from "react-router-dom"
 import { ROUTE_PATHS } from "../../lib/shared-constants"
+import Spinner from "react-bootstrap/Spinner"
+import Avatar from "../avatar/avatar"
 
-const Spinner = lazy(() => import("react-bootstrap/Spinner"))
 const ListGroup = lazy(() => import("react-bootstrap/ListGroup"))
 const ListGroupItem = lazy(() => import("react-bootstrap/ListGroupItem"))
 const Alert = lazy(() => import("react-bootstrap/Alert"))
@@ -23,7 +24,6 @@ const CardBody = lazy(() =>
     default: module.default.Body,
   })),
 )
-const Avatar = lazy(() => import("../avatar/avatar"))
 
 export interface IUserCardProps {
   userId: number
@@ -40,53 +40,58 @@ export default function UserCard(props: IUserCardProps) {
     dispatch(getUser(props.userId))
   }, [dispatch, props.userId])
 
+  const spinner = (
+    <div className="d-flex justify-center mt-5">
+      {" "}
+      <Spinner animation="grow" className="mx-auto" />
+    </div>
+  )
+
   return (
     <Container fluid className="d-flex p-0 mt-5 pt-2 user-card__container">
-      <Suspense>
-        <div className="border-end user-card__info">
-          {isLoading && (
-            <div className="d-flex justify-center mt-5">
-              {" "}
-              <Spinner animation="border" className="mx-auto" />
-            </div>
-          )}
-          {isError && (
-            <Alert variant="danger" className="mt-5 mx-3">
-              При загрузке информации о пользователе произошла ошибка.
-              Попробуйте перезагрузить страницу.
-            </Alert>
-          )}
-          {!isLoading && !isError && (
-            <Card className="border-0">
-              <div className="px-4 d-flex justify-content-center">
-                <Avatar className="user-card__avatar mt-4 border-secondary border-2 rounded-circle" />
-              </div>
-              <CardBody>
-                <CardTitle className="text-center">
-                  {user.info?.name} ({user.info?.username})
-                </CardTitle>
-              </CardBody>
-              <ListGroup className="list-group-flush border-bottom">
-                <ListGroupItem>
-                  email: <span className="fw-bold"> {user.info?.email}</span>
-                </ListGroupItem>
-                <ListGroupItem>
-                  phone: <span className="fw-bold">{user.info?.phone}</span>
-                </ListGroupItem>
-                <ListGroupItem>
-                  website: <span className="fw-bold">{user.info?.website}</span>
-                </ListGroupItem>
-              </ListGroup>
-              <Button
-                variant="link text-start mt-4"
-                onClick={() => navigate(ROUTE_PATHS.ROOT)}
-              >
-                Назад
-              </Button>
-            </Card>
-          )}
-        </div>
-      </Suspense>
+      <div className="border-end user-card__info">
+        <Suspense fallback={spinner}>
+          <>
+            {isLoading && spinner}
+            {isError && (
+              <Alert variant="danger" className="mt-5 mx-3">
+                При загрузке информации о пользователе произошла ошибка.
+                Попробуйте перезагрузить страницу.
+              </Alert>
+            )}
+            {!isLoading && !isError && (
+              <Card className="border-0">
+                <div className="px-4 d-flex justify-content-center">
+                  <Avatar className="user-card__avatar mt-4 border-secondary border-2 rounded-circle" />
+                </div>
+                <CardBody>
+                  <CardTitle className="text-center">
+                    {user.info?.name} ({user.info?.username})
+                  </CardTitle>
+                </CardBody>
+                <ListGroup className="list-group-flush border-bottom">
+                  <ListGroupItem>
+                    email: <span className="fw-bold"> {user.info?.email}</span>
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    phone: <span className="fw-bold">{user.info?.phone}</span>
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    website:{" "}
+                    <span className="fw-bold">{user.info?.website}</span>
+                  </ListGroupItem>
+                </ListGroup>
+                <Button
+                  variant="link text-start mt-4"
+                  onClick={() => navigate(ROUTE_PATHS.ROOT)}
+                >
+                  Назад
+                </Button>
+              </Card>
+            )}
+          </>
+        </Suspense>
+      </div>
       <div className="user-card__posts">
         <PostList userId={props.userId} />
       </div>
