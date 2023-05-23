@@ -1,9 +1,12 @@
 import "./userCard.css"
 import Container from "react-bootstrap/Container"
+import Button from "react-bootstrap/Button"
 import PostList from "../posts/postList"
 import { Suspense, lazy, useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { getUser } from "./userSlice"
+import { useNavigate } from "react-router-dom"
+import { ROUTE_PATHS } from "../../lib/shared-constants"
 
 const Spinner = lazy(() => import("react-bootstrap/Spinner"))
 const ListGroup = lazy(() => import("react-bootstrap/ListGroup"))
@@ -31,6 +34,7 @@ export default function UserCard(props: IUserCardProps) {
   const isLoading = useAppSelector((state) => state.user.isLoading)
   const isError = useAppSelector((state) => state.user.isError)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getUser(props.userId))
@@ -53,7 +57,7 @@ export default function UserCard(props: IUserCardProps) {
             </Alert>
           )}
           {!isLoading && !isError && (
-            <Card className="border-end-0 border-start-0">
+            <Card className="border-0">
               <div className="px-4 d-flex justify-content-center">
                 <Avatar className="user-card__avatar mt-4 border-secondary border-2 rounded-circle" />
               </div>
@@ -62,7 +66,7 @@ export default function UserCard(props: IUserCardProps) {
                   {user.info?.name} ({user.info?.username})
                 </CardTitle>
               </CardBody>
-              <ListGroup className="list-group-flush">
+              <ListGroup className="list-group-flush border-bottom">
                 <ListGroupItem>
                   email: <span className="fw-bold"> {user.info?.email}</span>
                 </ListGroupItem>
@@ -73,6 +77,12 @@ export default function UserCard(props: IUserCardProps) {
                   website: <span className="fw-bold">{user.info?.website}</span>
                 </ListGroupItem>
               </ListGroup>
+              <Button
+                variant="link text-start mt-4"
+                onClick={() => navigate(ROUTE_PATHS.ROOT)}
+              >
+                Назад
+              </Button>
             </Card>
           )}
         </div>
