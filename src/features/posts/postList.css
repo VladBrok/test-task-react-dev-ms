@@ -1,0 +1,9 @@
+.post-list__avatar {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-list__container {
+  max-width: 720px;
+}

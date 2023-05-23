@@ -1,0 +1,12 @@
+.header__link:hover {
+  text-decoration: underline;
+}
+
+.header__link.active {
+  background-color: var(--bs-dark);
+}
+
+.header__avatar {
+  width: 6.5rem;
+  height: 6.5rem;
+}
