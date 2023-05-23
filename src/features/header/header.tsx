@@ -5,7 +5,6 @@ import Navbar from "react-bootstrap/Navbar"
 import { useLocation, useNavigate } from "react-router-dom"
 import "./header.css"
 import { ROUTE_PATHS } from "../../lib/shared-constants"
-import Avatar from "../avatar/avatar"
 
 const OffcanvasHeader = lazy(() => import("react-bootstrap/OffcanvasHeader"))
 const OffcanvasBody = lazy(() => import("react-bootstrap/OffcanvasBody"))
@@ -26,6 +25,7 @@ const NavLink = lazy(() =>
     default: module.default.Link,
   })),
 )
+const Avatar = lazy(() => import("../avatar/avatar"))
 
 interface IMenuLink {
   route: string
