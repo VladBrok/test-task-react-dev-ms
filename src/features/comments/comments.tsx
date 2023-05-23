@@ -19,7 +19,9 @@ const ListGroup = lazy(() => import("react-bootstrap/ListGroup"))
 const ListGroupItem = lazy(() => import("react-bootstrap/ListGroupItem"))
 const Card = lazy(() => import("react-bootstrap/Card"))
 const CardText = lazy(() =>
-  import("react-bootstrap/Card").then((x) => ({ default: x.default.Text })),
+  import("react-bootstrap/Card").then((module) => ({
+    default: module.default.Text,
+  })),
 )
 
 export interface ICommentsProps {
